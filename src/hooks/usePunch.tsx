@@ -29,11 +29,15 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const doPunch = useCallback(async () => {
         if (!credentials) throw new Error("No credentials available");
 
+        setIsDoingPunch(true);
+
         const response = await TimeTrex.punch(credentials);
 
         const body = response.success ? "Successfully punched" : "Error while punching";
 
         new Notification("TimeTrex Desktop", { body });
+
+        setIsDoingPunch(false);
     }, [credentials]);
 
     useEffect(() => {
