@@ -32,9 +32,7 @@ export default defineConfig(({ command }) => {
                               // Will start Electron via VSCode Debug
                               customStart(
                                   debounce(() =>
-                                      console.log(
-                                          /* For `.vscode/.debug.script.mjs` */ "[startup] Electron App"
-                                      )
+                                      console.log(/* For `.vscode/.debug.script.mjs` */ "[startup] Electron App")
                                   )
                               ),
                           ]
@@ -61,10 +59,7 @@ export default defineConfig(({ command }) => {
     };
 });
 
-function debounce<Fn extends (...args: unknown[]) => void>(
-    fn: Fn,
-    delay = 299
-): Fn {
+function debounce<Fn extends (...args: unknown[]) => void>(fn: Fn, delay = 299): Fn {
     let t: NodeJS.Timeout;
     return ((...args: Parameters<Fn>) => {
         clearTimeout(t);

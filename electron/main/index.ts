@@ -1,13 +1,7 @@
-import {
-    app,
-    BrowserWindow,
-    shell,
-    nativeImage,
-    Tray,
-    ipcMain,
-} from "electron";
+import { app, BrowserWindow, shell, nativeImage, Tray, ipcMain } from "electron";
 import { release } from "node:os";
 import { join } from "node:path";
+import { punch } from "../puppeteer";
 
 import Storage from "../store";
 import Config from "./config";
@@ -19,6 +13,10 @@ const setNativeStorageListeners = () => {
     ipcMain.handle("Storage:get", (_e, key) => Storage.get(key));
     ipcMain.handle("Storage:set", (_e, key, value) => Storage.set(key, value));
     ipcMain.handle("Storage:delete", (_e, key) => Storage.delete(key));
+};
+
+const setTimeTrexListeners = () => {
+    ipcMain.handle("TimeTrex:punch", (_e, credentials) => punch(credentials));
 };
 
 const startWindow = () => {
@@ -63,26 +61,22 @@ const startWindow = () => {
 };
 
 function startTray() {
-    const trayIcon = nativeImage
-        .createFromPath(join(process.env.PUBLIC, "timetrex-logo.png"))
-        .resize({
-            height: 16,
-            width: 16,
-        });
+    const trayIcon = nativeImage.createFromPath(join(process.env.PUBLIC, "timetrex-logo.png")).resize({
+        height: 16,
+        width: 16,
+    });
 
     tray = new Tray(trayIcon);
 
     tray.addListener("click", (_e, bounds) => {
-        win.setPosition(
-            bounds.x + bounds.width / 2 - Config.windowWidth / 2,
-            bounds.height * 1.5
-        );
+        win.setPosition(bounds.x + bounds.width / 2 - Config.windowWidth / 2, bounds.height * 1.5);
         win.show();
     });
 }
 
 const startApp = () => {
     setNativeStorageListeners();
+    setTimeTrexListeners();
     startWindow();
     startTray();
 };

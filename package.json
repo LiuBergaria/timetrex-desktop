@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "electron-store": "^8.1.0",
+    "puppeteer": "^19.7.2",
     "react-spinners": "^0.13.8"
   }
 }

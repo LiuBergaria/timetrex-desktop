@@ -2,9 +2,7 @@ import { join } from "node:path";
 
 const distElectronPath = join(__dirname, "../");
 const distPath = join(distElectronPath, "../dist");
-const publicPath = process.env.VITE_DEV_SERVER_URL
-    ? join(distElectronPath, "../public")
-    : distPath;
+const publicPath = process.env.VITE_DEV_SERVER_URL ? join(distElectronPath, "../public") : distPath;
 
 process.env.DIST_ELECTRON = distElectronPath;
 process.env.DIST = distPath;
