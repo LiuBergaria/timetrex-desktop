@@ -1,23 +1,13 @@
-import { app, BrowserWindow, shell, nativeImage, Tray, ipcMain } from "electron";
+import { app, BrowserWindow, shell, nativeImage, Tray } from "electron";
+import { setNativeStorageHandlers, setTimeTrexHandlers } from "electron/main/handlers";
+
 import { release } from "node:os";
 import { join } from "node:path";
-import { punch } from "../puppeteer";
 
-import Storage from "../store";
 import Config from "./config";
 
 let tray: Tray;
 let win: BrowserWindow;
-
-const setNativeStorageListeners = () => {
-    ipcMain.handle("Storage:get", (_e, key) => Storage.get(key));
-    ipcMain.handle("Storage:set", (_e, key, value) => Storage.set(key, value));
-    ipcMain.handle("Storage:delete", (_e, key) => Storage.delete(key));
-};
-
-const setTimeTrexListeners = () => {
-    ipcMain.handle("TimeTrex:punch", (_e, credentials) => punch(credentials));
-};
 
 const startWindow = () => {
     win = new BrowserWindow({
@@ -75,8 +65,8 @@ function startTray() {
 }
 
 const startApp = () => {
-    setNativeStorageListeners();
-    setTimeTrexListeners();
+    setNativeStorageHandlers();
+    setTimeTrexHandlers();
     startWindow();
     startTray();
 };

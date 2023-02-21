@@ -1,4 +1,4 @@
-import useAccount from "@/hooks/useAccount";
+import useAccount from "@hooks/useAccount";
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 
 interface IPunch {

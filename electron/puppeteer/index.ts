@@ -3,10 +3,7 @@ import { addInterceptors } from "./interceptors";
 import { setUserPunch } from "./punch";
 import { signIn } from "./signIn";
 
-interface ICredentials {
-    username: string;
-    password: string;
-}
+import { ICredentials } from "@common/@types/credentials";
 
 const getBrowserAndPage = async () => {
     const browser = await Puppeteer.launch({
@@ -29,7 +26,9 @@ export const punch = async (credentials: ICredentials) => {
     await browser.close();
 
     // Check history for success/failure
-    const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch"));
+    const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch")) satisfies {
+        responseBody?: { apiretVal?: boolean };
+    };
 
     if (setUserPunchRequest && setUserPunchRequest.isOk && setUserPunchRequest.responseBody?.api_retval) {
         return { success: true };

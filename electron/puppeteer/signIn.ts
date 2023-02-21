@@ -1,5 +1,7 @@
 import { Page } from "puppeteer";
 
+import { ICredentials } from "@common/@types/credentials";
+
 const signUrl = "http://timetrex.oowlish.com/interface/html5/";
 const usernameInputSelector = "input[name=username]";
 const passwordInputSelector = "input[name=password]";

@@ -1,9 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
-interface ICredentials {
-    username: string;
-    password: string;
-}
+import { ICredentials } from "@common/@types/credentials";
 
 interface IAccountContext {
     validateCredentials(credentials: ICredentials): Promise<void>;
@@ -23,7 +20,7 @@ export const AccountProvider: React.FC<React.PropsWithChildren> = ({ children })
     const validateCredentials = useCallback(async ({ username, password }: ICredentials) => {
         setIsValidatingCredentials(true);
 
-        await NativeStorage.set("UserInformation", { username, password });
+        await NativeStorage.set<ICredentials>("UserInformation", { username, password });
         setCredentials({ username, password });
 
         setIsValidatingCredentials(false);
@@ -41,7 +38,7 @@ export const AccountProvider: React.FC<React.PropsWithChildren> = ({ children })
     const loadCredentialsFromStorage = useCallback(async () => {
         setIsLoadingCredentials(true);
 
-        const storedCredentials = await NativeStorage.get("UserInformation");
+        const storedCredentials = await NativeStorage.get<ICredentials>("UserInformation");
 
         if (storedCredentials) setCredentials(storedCredentials);
 

@@ -1,4 +1,4 @@
-import useAccount from "@/hooks/useAccount";
+import useAccount from "@hooks/useAccount";
 import { useCallback, useRef } from "react";
 import { ClipLoader } from "react-spinners";
 
