@@ -2,7 +2,8 @@ import { Page } from "puppeteer";
 
 interface ISimpleRequest {
     url: string;
-    responseBody?: unknown;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    responseBody?: any;
     hasFailed?: boolean;
     isOk?: boolean;
 }

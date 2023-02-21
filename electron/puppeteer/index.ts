@@ -26,9 +26,7 @@ export const punch = async (credentials: ICredentials) => {
     await browser.close();
 
     // Check history for success/failure
-    const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch")) satisfies {
-        responseBody?: { apiretVal?: boolean };
-    };
+    const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch"));
 
     if (setUserPunchRequest && setUserPunchRequest.isOk && setUserPunchRequest.responseBody?.api_retval) {
         return { success: true };
