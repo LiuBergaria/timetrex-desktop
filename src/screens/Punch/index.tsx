@@ -1,7 +1,7 @@
 import { ClipLoader } from "react-spinners";
 
-import useAccount from "@hooks/useAccount";
-import usePunch from "@hooks/usePunch";
+import useAccount from "@/hooks/useAccount";
+import usePunch from "@/hooks/usePunch";
 
 const Punch: React.FC = () => {
     const { doPunch, isDoingPunch } = usePunch();

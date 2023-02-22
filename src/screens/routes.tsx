@@ -1,6 +1,6 @@
-import useAccount from "@hooks/useAccount";
-import Punch from "@screens/Punch";
-import SignIn from "@screens/SignIn";
+import useAccount from "@/hooks/useAccount";
+import Punch from "@/screens/Punch";
+import SignIn from "@/screens/SignIn";
 
 const Routes = () => {
     const { credentials } = useAccount();

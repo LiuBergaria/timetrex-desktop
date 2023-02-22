@@ -1,6 +1,6 @@
-import { AccountProvider } from "@hooks/useAccount";
-import { PunchProvider } from "@hooks/usePunch";
-import Routes from "@screens/routes";
+import { AccountProvider } from "@/hooks/useAccount";
+import { PunchProvider } from "@/hooks/usePunch";
+import Routes from "@/screens/routes";
 
 const App = () => {
     return (

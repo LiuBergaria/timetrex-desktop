@@ -1,4 +1,4 @@
-import useAccount from "@hooks/useAccount";
+import useAccount from "@/hooks/useAccount";
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 
 interface IPunch {
@@ -31,11 +31,13 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         setIsDoingPunch(true);
 
-        const response = await TimeTrex.punch(credentials);
+        // const response = await TimeTrex.punch(credentials);
 
-        const body = response.success ? "Successfully punched" : "Error while punching";
+        // const body = response.success ? "Successfully punched" : "Error while punching";
 
-        new Notification("TimeTrex Desktop", { body });
+        // new Notification("TimeTrex Desktop", { body });
+
+        await TimeTrex.getTodayPunches(credentials);
 
         setIsDoingPunch(false);
     }, [credentials]);
