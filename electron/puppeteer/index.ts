@@ -1,6 +1,6 @@
 import Puppeteer from "puppeteer";
 import { addInterceptors } from "./interceptors";
-import { setUserPunch } from "./punch";
+import { extractTodayPunches, setUserPunch } from "./punch";
 import { signIn } from "./signIn";
 
 import { ICredentials } from "@common/@types/credentials";
@@ -8,7 +8,7 @@ import { ICredentials } from "@common/@types/credentials";
 const getBrowserAndPage = async () => {
     const browser = await Puppeteer.launch({
         headless: false,
-        defaultViewport: { width: 1000, height: 800 },
+        defaultViewport: { width: 1100, height: 800 },
     });
     const page = await browser.newPage();
 
@@ -33,4 +33,13 @@ export const punch = async (credentials: ICredentials) => {
     }
 
     return { success: false };
+};
+
+export const getTodayPunches = async (credentials: ICredentials) => {
+    const { browser, page, history } = await getBrowserAndPage();
+
+    await signIn(page, credentials);
+    await extractTodayPunches(page);
+
+    await browser.close();
 };

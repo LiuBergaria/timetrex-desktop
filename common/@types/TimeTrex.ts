@@ -5,7 +5,9 @@ export interface IPunchResponse {
 }
 
 export type IPunch = (credentials: ICredentials) => Promise<IPunchResponse>;
+export type IGetTodayPunches = (credentials: ICredentials) => Promise<void>;
 
 export interface ITimeTrex {
     punch: IPunch;
+    getTodayPunches: IGetTodayPunches;
 }

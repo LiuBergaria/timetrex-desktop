@@ -1,5 +1,5 @@
 import { app, BrowserWindow, shell, nativeImage, Tray } from "electron";
-import { setNativeStorageHandlers, setTimeTrexHandlers } from "electron/main/handlers";
+import { setNativeStorageHandlers, setTimeTrexHandlers } from "./handlers";
 
 import { release } from "node:os";
 import { join } from "node:path";

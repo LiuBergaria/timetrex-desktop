@@ -6,4 +6,5 @@ export enum NativeStorageHandlers {
 
 export enum TimeTrexHandlers {
     punch = "TimeTrex:punch",
+    getTodayPunches = "TimeTrex:getTodayPunches",
 }
