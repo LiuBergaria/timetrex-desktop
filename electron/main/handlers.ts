@@ -1,7 +1,8 @@
 import { ipcMain } from "electron";
-import { NativeStorageHandlers, TimeTrexHandlers } from "electron/@types/handlers";
-import { punch } from "electron/puppeteer";
-import Storage from "electron/store";
+
+import { NativeStorageHandlers, TimeTrexHandlers } from "../@types/handlers";
+import { punch } from "../puppeteer";
+import Storage from "../store";
 
 export const setNativeStorageHandlers = () => {
     ipcMain.handle(NativeStorageHandlers.get, (_e, key) => Storage.get(key));
