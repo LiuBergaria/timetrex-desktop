@@ -24,6 +24,16 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
     const refreshTodayPunches = useCallback(async () => {
         if (!credentials) throw new Error("No credentials available");
+
+        setIsLoadingPunches(true);
+
+        const response = await TimeTrex.getTodayPunches(credentials);
+
+        if (response.success) {
+            setTodayPunches(response.data.map((time) => ({ time })));
+        }
+
+        setIsLoadingPunches(false);
     }, [credentials]);
 
     const doPunch = useCallback(async () => {
@@ -31,13 +41,11 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         setIsDoingPunch(true);
 
-        // const response = await TimeTrex.punch(credentials);
+        const response = await TimeTrex.punch(credentials);
 
-        // const body = response.success ? "Successfully punched" : "Error while punching";
+        const body = response.success ? "Successfully punched" : "Error while punching";
 
-        // new Notification("TimeTrex Desktop", { body });
-
-        await TimeTrex.getTodayPunches(credentials);
+        new Notification("TimeTrex Desktop", { body });
 
         setIsDoingPunch(false);
     }, [credentials]);

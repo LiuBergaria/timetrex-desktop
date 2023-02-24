@@ -20,26 +20,34 @@ export const setUserPunch = async (page: Page) => {
     await page.waitForNetworkIdle();
 };
 
+const todayHighlightedHeaderSelector = ".timesheet-punch-grid-wrapper table:first-child thead tr:last-child th";
+const todayLinesSelector = ".timesheet-punch-grid-wrapper table:nth-child(2) tbody tr";
+
 export const extractTodayPunches = async (page: Page) => {
     await page.goto(timeSheetUrl);
 
     // Wait for page loads
     await page.waitForNetworkIdle();
 
-    const index = await page.$$eval("table:first-child thead tr:last-child th", (headers) => {
+    await page.waitForSelector(todayHighlightedHeaderSelector);
+
+    const index = await page.$$eval(todayHighlightedHeaderSelector, (headers) => {
         const selectedItem = headers.find((header) => header.className.includes("highlight-header"));
 
         return headers.indexOf(selectedItem);
     });
 
-    console.log({ index });
+    await page.waitForSelector(todayLinesSelector);
 
-    // const index = [...highlightedHeader.parentElement.children].findIndex((x) => x === highlightedHeader);
-    // const table = document.querySelector("#timesheet_view_container_60_grid");
-    // const lines = [...table.querySelectorAll("tr")].filter((el) =>
-    //     ["In", "Out"].includes(el.querySelector("td").textContent)
-    // );
-    // return lines
-    //     .map((el) => el.querySelector("td:nth-child(" + (index + 1) + ") span").textContent)
-    //     .filter((value) => !!value);
+    return await page.$$eval(
+        todayLinesSelector,
+        (lines, column) => {
+            const validLines = lines.filter((line) => line.id === Number(line.id).toString());
+
+            return validLines
+                .map((line) => line.children[column].querySelector("span.punch-time")?.textContent)
+                .filter((time) => !!time);
+        },
+        index
+    );
 };

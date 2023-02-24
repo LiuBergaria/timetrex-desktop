@@ -1,11 +1,13 @@
 import { ICredentials } from "@common/@types/credentials";
 
-export interface IPunchResponse {
+export type IPunch = (credentials: ICredentials) => Promise<{
     success: boolean;
-}
+}>;
 
-export type IPunch = (credentials: ICredentials) => Promise<IPunchResponse>;
-export type IGetTodayPunches = (credentials: ICredentials) => Promise<void>;
+export type IGetTodayPunches = (credentials: ICredentials) => Promise<{
+    success: boolean;
+    data: string[];
+}>;
 
 export interface ITimeTrex {
     punch: IPunch;

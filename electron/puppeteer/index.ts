@@ -36,10 +36,12 @@ export const punch = async (credentials: ICredentials) => {
 };
 
 export const getTodayPunches = async (credentials: ICredentials) => {
-    const { browser, page, history } = await getBrowserAndPage();
+    const { browser, page } = await getBrowserAndPage();
 
     await signIn(page, credentials);
-    await extractTodayPunches(page);
+    const todayPunches = await extractTodayPunches(page);
 
     await browser.close();
+
+    return { success: true, data: todayPunches };
 };
