@@ -14,7 +14,7 @@ export const setUserPunch = async (page: Page) => {
     await page.waitForNetworkIdle();
 
     await page.waitForSelector(punchTimeSelector);
-    const punchTime = await page.$eval(punchTimeSelector, (punchTimeInput) => punchTimeInput.getAttribute("value"));
+    const punchTime = await page.$eval(punchTimeSelector, (punchTimeInput) => punchTimeInput.value);
 
     // Await for and click on SAVE
     await page.waitForSelector(saveButtonSelector);
