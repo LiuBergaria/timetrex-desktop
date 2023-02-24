@@ -20,8 +20,12 @@ export const AccountProvider: React.FC<React.PropsWithChildren> = ({ children })
     const validateCredentials = useCallback(async ({ username, password }: ICredentials) => {
         setIsValidatingCredentials(true);
 
-        await NativeStorage.set<ICredentials>("UserInformation", { username, password });
-        setCredentials({ username, password });
+        const response = await TimeTrex.validateCredentials({ username, password });
+
+        if (response.success) {
+            await NativeStorage.set<ICredentials>("UserInformation", { username, password });
+            setCredentials({ username, password });
+        }
 
         setIsValidatingCredentials(false);
     }, []);

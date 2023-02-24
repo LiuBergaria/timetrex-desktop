@@ -9,7 +9,12 @@ const SignIn: React.FC = () => {
     const { validateCredentials, isValidatingCredentials } = useAccount();
 
     const submitLogin = useCallback(async () => {
-        await validateCredentials({ username: usernameRef.current?.value, password: passwordRef.current?.value });
+        const username = usernameRef.current?.value;
+        const password = passwordRef.current?.value;
+
+        if (username && password) {
+            await validateCredentials({ username, password });
+        }
     }, [validateCredentials]);
 
     return (

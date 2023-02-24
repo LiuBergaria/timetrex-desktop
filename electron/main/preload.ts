@@ -12,4 +12,5 @@ contextBridge.exposeInMainWorld("NativeStorage", {
 contextBridge.exposeInMainWorld("TimeTrex", {
     punch: (credentials) => ipcRenderer.invoke("TimeTrex:punch", credentials),
     getTodayPunches: (credentials) => ipcRenderer.invoke("TimeTrex:getTodayPunches", credentials),
+    validateCredentials: (credentials) => ipcRenderer.invoke("TimeTrex:validateCredentials", credentials),
 } satisfies ITimeTrex);

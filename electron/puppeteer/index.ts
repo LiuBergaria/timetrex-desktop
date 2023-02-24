@@ -45,3 +45,23 @@ export const getTodayPunches = async (credentials: ICredentials) => {
 
     return { success: true, data: todayPunches };
 };
+
+export const validateCredentials = async (credentials: ICredentials) => {
+    const { browser, page, history } = await getBrowserAndPage();
+
+    await signIn(page, credentials);
+
+    await browser.close();
+
+    const authenticationRequest = history.find((request) => request.url.includes("APIAuthentication"));
+
+    if (
+        authenticationRequest.isOk &&
+        authenticationRequest.responseBody &&
+        typeof authenticationRequest.responseBody === "string"
+    ) {
+        return { success: true };
+    }
+
+    return { success: false };
+};

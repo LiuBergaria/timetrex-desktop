@@ -10,7 +10,12 @@ export type IGetTodayPunches = (credentials: ICredentials) => Promise<{
     data: string[];
 }>;
 
+export type IValidateCredentials = (credentials: ICredentials) => Promise<{
+    success: boolean;
+}>;
+
 export interface ITimeTrex {
     punch: IPunch;
     getTodayPunches: IGetTodayPunches;
+    validateCredentials: IValidateCredentials;
 }
