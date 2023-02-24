@@ -18,7 +18,12 @@ const Storage = {
     },
 
     get(key: string) {
-        const buffer = Buffer.from(store.get(key), "latin1");
+        const value = store.get(key);
+
+        if (!value) return undefined;
+
+        const buffer = Buffer.from(value, "latin1");
+
         return JSON.parse(safeStorage.decryptString(buffer));
     },
 };
