@@ -40,7 +40,7 @@ const startWindow = () => {
     }
 
     win.on("blur", () => {
-        // win.hide();
+        win.hide();
     });
 
     // Make all links open with the browser, not with the application
