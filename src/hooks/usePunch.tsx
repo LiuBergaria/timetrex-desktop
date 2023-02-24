@@ -1,5 +1,5 @@
 import useAccount from "@/hooks/useAccount";
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 interface IPunch {
     time: string;
@@ -14,6 +14,8 @@ interface IPunchContext {
 }
 
 const PunchContext = createContext({} as IPunchContext);
+
+const RefreshIntervalMS = 15 * 60 * 1000;
 
 export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [todayPunches, setTodayPunches] = useState<IPunch[]>([]);
@@ -55,9 +57,14 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, [credentials]);
 
     useEffect(() => {
+        let refreshingInterval: NodeJS.Timeout;
+
         if (credentials) {
             refreshTodayPunches();
+            refreshingInterval = setInterval(refreshTodayPunches, RefreshIntervalMS);
         }
+
+        return () => clearInterval(refreshingInterval);
     }, [credentials, refreshTodayPunches]);
 
     return (

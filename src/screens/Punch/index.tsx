@@ -9,11 +9,12 @@ const Punch: React.FC = () => {
 
     return (
         <div>
-            <h1>Today punches:</h1>
+            <h1 className="flex items-center">
+                Today punches: {isLoadingPunches && <ClipLoader className="ml-5" size={18} color={"white"} />}
+            </h1>
             <p className="mt-3">
-                {isLoadingPunches && <ClipLoader size={16} color={"white"} />}
-                {!isLoadingPunches && todayPunches.length === 0 && "None"}
-                {!isLoadingPunches && todayPunches.map((punch) => punch.time).join(" ")}
+                {todayPunches.length === 0 && (isLoadingPunches ? "Loading..." : "None")}
+                {todayPunches.map((punch) => punch.time).join(" ")}
             </p>
             <div className="w-full mt-5">
                 <button
