@@ -3,6 +3,7 @@ import { Page } from "puppeteer";
 const timeSheetUrl = "http://timetrex.oowlish.com/interface/html5/#!m=TimeSheet";
 const inOutButtonSelector = "span.topbar-icon.topbar-inout";
 const saveButtonSelector = "#context-button-save";
+const punchTimeSelector = ".t-time-picker-div input";
 
 export const setUserPunch = async (page: Page) => {
     // Await for and click on IN/OUT
@@ -12,12 +13,17 @@ export const setUserPunch = async (page: Page) => {
     // Wait for page loads
     await page.waitForNetworkIdle();
 
+    await page.waitForSelector(punchTimeSelector);
+    const punchTime = await page.$eval(punchTimeSelector, (punchTimeInput) => punchTimeInput.getAttribute("value"));
+
     // Await for and click on SAVE
     await page.waitForSelector(saveButtonSelector);
     await page.click(saveButtonSelector);
 
     // Wait for page loads
     await page.waitForNetworkIdle();
+
+    return punchTime;
 };
 
 const todayHighlightedHeaderSelector = ".timesheet-punch-grid-wrapper table:first-child thead tr:last-child th";

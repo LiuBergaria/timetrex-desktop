@@ -21,7 +21,7 @@ export const punch = async (credentials: ICredentials) => {
     const { browser, page, history } = await getBrowserAndPage();
 
     await signIn(page, credentials);
-    await setUserPunch(page);
+    const punchTime = await setUserPunch(page);
 
     await browser.close();
 
@@ -29,7 +29,7 @@ export const punch = async (credentials: ICredentials) => {
     const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch"));
 
     if (setUserPunchRequest && setUserPunchRequest.isOk && setUserPunchRequest.responseBody?.api_retval) {
-        return { success: true };
+        return { success: true, data: punchTime };
     }
 
     return { success: false };
