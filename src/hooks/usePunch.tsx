@@ -43,9 +43,9 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         const response = await TimeTrex.punch(credentials);
 
-        const body = response.success ? "Successfully punched" : "Error while punching";
+        const title = response.success ? "Successfully punched" : "Error while punching";
 
-        new Notification("TimeTrex Desktop", { body });
+        new Notification(title);
 
         setIsDoingPunch(false);
     }, [credentials]);

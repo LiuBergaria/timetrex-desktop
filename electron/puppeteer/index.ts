@@ -7,7 +7,7 @@ import { ICredentials } from "@common/@types/credentials";
 
 const getBrowserAndPage = async () => {
     const browser = await Puppeteer.launch({
-        headless: false,
+        headless: true,
         defaultViewport: { width: 1100, height: 800 },
     });
     const page = await browser.newPage();
