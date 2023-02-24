@@ -49,12 +49,14 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setTodayPunches((oldPunches) => [...oldPunches, { time: response.data }]);
         }
 
+        refreshTodayPunches();
+
         const title = response.success ? "Successfully punched" : "Error while punching";
 
         new Notification(title);
 
         setIsDoingPunch(false);
-    }, [credentials]);
+    }, [credentials, refreshTodayPunches]);
 
     useEffect(() => {
         let refreshingInterval: NodeJS.Timeout;
