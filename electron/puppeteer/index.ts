@@ -34,9 +34,9 @@ export const punch: IPunch = async (credentials: ICredentials) => {
             return { success: true, data: punchTime };
         }
 
-        return { success: false, error: "Unknown error" };
+        return { success: false, error: "Unknown error while punching" };
     } catch (error) {
-        return { success: false, error: "Unknown error" };
+        return { success: false, error: "Unknown error while punching" };
     }
 };
 
@@ -51,7 +51,7 @@ export const getTodayPunches: IGetTodayPunches = async (credentials: ICredential
 
         return { success: true, data: todayPunches };
     } catch (error) {
-        return { success: false, error: "Unknown error" };
+        return { success: false, error: "Unknown error while getting today punches" };
     }
 };
 
@@ -73,8 +73,8 @@ export const validateCredentials: IValidateCredentials = async (credentials: ICr
             return { success: false, error: "Wrong username and/or password" };
         }
 
-        return { success: false, error: "Unknown error" };
+        return { success: false, error: "Unknown error while validating credentials" };
     } catch (error) {
-        return { success: false, error: "Unknown error" };
+        return { success: false, error: "Unknown error while validating credentials" };
     }
 };
