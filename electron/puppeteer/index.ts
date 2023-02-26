@@ -4,6 +4,7 @@ import { extractTodayPunches, setUserPunch } from "./punch";
 import { signIn } from "./signIn";
 
 import { ICredentials } from "@common/@types/credentials";
+import { IGetTodayPunches, IPunch, IValidateCredentials } from "@common/@types/TimeTrex";
 
 const getBrowserAndPage = async () => {
     const browser = await Puppeteer.launch({
@@ -17,51 +18,63 @@ const getBrowserAndPage = async () => {
     return { browser, page, history };
 };
 
-export const punch = async (credentials: ICredentials) => {
-    const { browser, page, history } = await getBrowserAndPage();
+export const punch: IPunch = async (credentials: ICredentials) => {
+    try {
+        const { browser, page, history } = await getBrowserAndPage();
 
-    await signIn(page, credentials);
-    const punchTime = await setUserPunch(page);
+        await signIn(page, credentials);
+        const punchTime = await setUserPunch(page);
 
-    await browser.close();
+        await browser.close();
 
-    // Check history for success/failure
-    const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch"));
+        // Check history for success/failure
+        const setUserPunchRequest = history.find((request) => request.url.includes("Method=setUserPunch"));
 
-    if (setUserPunchRequest && setUserPunchRequest.isOk && setUserPunchRequest.responseBody?.api_retval) {
-        return { success: true, data: punchTime };
+        if (setUserPunchRequest && setUserPunchRequest.isOk && setUserPunchRequest.responseBody?.api_retval) {
+            return { success: true, data: punchTime };
+        }
+
+        return { success: false, error: "Unknown error" };
+    } catch (error) {
+        return { success: false, error: "Unknown error" };
     }
-
-    return { success: false };
 };
 
-export const getTodayPunches = async (credentials: ICredentials) => {
-    const { browser, page } = await getBrowserAndPage();
+export const getTodayPunches: IGetTodayPunches = async (credentials: ICredentials) => {
+    try {
+        const { browser, page } = await getBrowserAndPage();
 
-    await signIn(page, credentials);
-    const todayPunches = await extractTodayPunches(page);
+        await signIn(page, credentials);
+        const todayPunches = await extractTodayPunches(page);
 
-    await browser.close();
+        await browser.close();
 
-    return { success: true, data: todayPunches };
+        return { success: true, data: todayPunches };
+    } catch (error) {
+        return { success: false, error: "Unknown error" };
+    }
 };
 
-export const validateCredentials = async (credentials: ICredentials) => {
-    const { browser, page, history } = await getBrowserAndPage();
+export const validateCredentials: IValidateCredentials = async (credentials: ICredentials) => {
+    try {
+        const { browser, page, history } = await getBrowserAndPage();
 
-    await signIn(page, credentials);
+        await signIn(page, credentials);
 
-    await browser.close();
+        await browser.close();
 
-    const authenticationRequest = history.find((request) => request.url.includes("APIAuthentication"));
+        const authenticationRequest = history.find((request) => request.url.includes("APIAuthentication"));
 
-    if (
-        authenticationRequest.isOk &&
-        authenticationRequest.responseBody &&
-        typeof authenticationRequest.responseBody === "string"
-    ) {
-        return { success: true };
+        if (authenticationRequest.isOk && authenticationRequest.responseBody) {
+            if (typeof authenticationRequest.responseBody === "string") {
+                return { success: true };
+            }
+
+            return { success: false, error: "Wrong username and/or password" };
+        }
+
+        return { success: false, error: "Unknown error" };
+    } catch (error) {
+        return { success: false, error: "Unknown error" };
     }
-
-    return { success: false };
 };
