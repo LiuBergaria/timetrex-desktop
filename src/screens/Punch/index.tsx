@@ -8,11 +8,11 @@ const Punch: React.FC = () => {
     const { deleteCredentials } = useAccount();
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-1 flex-col">
             <h1 className="flex items-center">
                 Today punches: {isLoadingPunches && <ClipLoader className="ml-5" size={18} color={"white"} />}
             </h1>
-            <p className="mt-3">
+            <p className="mt-3 flex-1">
                 {todayPunches.length === 0 && (isLoadingPunches ? "Loading..." : "None")}
                 {todayPunches.map((punch) => punch.time).join(" ")}
             </p>

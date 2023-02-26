@@ -6,7 +6,7 @@ const App = () => {
     return (
         <AccountProvider>
             <PunchProvider>
-                <div className="bg-neutral-800 text-white p-5">
+                <div className="bg-neutral-800 text-white p-5 flex" style={{ height: 250 }}>
                     <Routes />
                 </div>
             </PunchProvider>

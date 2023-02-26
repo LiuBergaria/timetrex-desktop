@@ -18,7 +18,7 @@ const SignIn: React.FC = () => {
     }, [validateCredentials]);
 
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-1 flex-col">
             <label className="mb-1">Username</label>
             <input
                 ref={usernameRef}
@@ -32,6 +32,7 @@ const SignIn: React.FC = () => {
                 type={"password"}
                 disabled={isValidatingCredentials}
             />
+            <div className="flex-1" />
             <button
                 className="border rounded-md py-2 bg-white text-neutral-900 mt-5 flex justify-center items-center disabled:opacity-75"
                 onClick={submitLogin}

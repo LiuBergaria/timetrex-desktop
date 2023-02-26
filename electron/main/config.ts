@@ -12,7 +12,7 @@ const Config = {
     serverUrl: process.env.VITE_DEV_SERVER_URL,
     indexPath: join(process.env.DIST, "index.html"),
     windowWidth: 400,
-    windowHeight: 600,
+    windowHeight: 250,
     distElectronPath,
     distPath,
     publicPath,
