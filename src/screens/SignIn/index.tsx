@@ -6,7 +6,7 @@ const SignIn: React.FC = () => {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
-    const { validateCredentials, isValidatingCredentials } = useAccount();
+    const { validateCredentials, isValidatingCredentials, credentialsError } = useAccount();
 
     const submitLogin = useCallback(async () => {
         const username = usernameRef.current?.value;
@@ -19,22 +19,22 @@ const SignIn: React.FC = () => {
 
     return (
         <div className="flex flex-1 flex-col">
-            <label className="mb-1">Username</label>
+            <label className="mb-1 text-sm">Username</label>
             <input
                 ref={usernameRef}
-                className="border rounded-md bg-transparent px-3 py-1 disabled:opacity-50"
+                className="border rounded-md bg-transparent px-3 py-1 text-sm disabled:opacity-50"
                 disabled={isValidatingCredentials}
             />
-            <label className="mt-3 mb-1">Password</label>
+            <label className="mt-3 mb-1 text-sm">Password</label>
             <input
                 ref={passwordRef}
-                className="border rounded-md bg-transparent px-3 py-1 disabled:opacity-50"
+                className="border rounded-md bg-transparent px-3 py-1 text-sm disabled:opacity-50"
                 type={"password"}
                 disabled={isValidatingCredentials}
             />
-            <div className="flex-1" />
+            <p className="flex-1 flex items-center text-red-500 text-sm">{credentialsError}</p>
             <button
-                className="border rounded-md py-2 bg-white text-neutral-900 mt-5 flex justify-center items-center disabled:opacity-75"
+                className="border rounded-md py-2 bg-white text-neutral-900 mt-1 flex justify-center items-center disabled:opacity-75"
                 onClick={submitLogin}
                 disabled={isValidatingCredentials}
             >
