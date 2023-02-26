@@ -1,5 +1,5 @@
 import useAccount from "@/hooks/useAccount";
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 
 interface IPunch {
     time: string;
@@ -11,6 +11,8 @@ interface IPunchContext {
     isDoingPunch: boolean;
     refreshTodayPunches: () => Promise<void>;
     doPunch: () => Promise<void>;
+    todayPunchesError?: string;
+    punchError?: string;
 }
 
 const PunchContext = createContext({} as IPunchContext);
@@ -19,12 +21,15 @@ const RefreshIntervalMS = 15 * 60 * 1000;
 
 export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [todayPunches, setTodayPunches] = useState<IPunch[]>([]);
+    const [todayPunchesError, setTodayPunchesError] = useState<string>();
     const [isLoadingPunches, setIsLoadingPunches] = useState(false);
+    const [punchError, setPunchError] = useState<string>();
     const [isDoingPunch, setIsDoingPunch] = useState(false);
 
     const { credentials } = useAccount();
 
     const refreshTodayPunches = useCallback(async () => {
+        setTodayPunchesError(undefined);
         if (!credentials) throw new Error("No credentials available");
 
         setIsLoadingPunches(true);
@@ -33,12 +38,15 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         if (response.success) {
             setTodayPunches(response.data.map((time) => ({ time })));
+        } else {
+            setTodayPunchesError(response.error);
         }
 
         setIsLoadingPunches(false);
     }, [credentials]);
 
     const doPunch = useCallback(async () => {
+        setPunchError(undefined);
         if (!credentials) throw new Error("No credentials available");
 
         setIsDoingPunch(true);
@@ -47,6 +55,8 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         if (response.success) {
             setTodayPunches((oldPunches) => [...oldPunches, { time: response.data }]);
+        } else {
+            setPunchError(response.error);
         }
 
         refreshTodayPunches();
@@ -77,6 +87,8 @@ export const PunchProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 isDoingPunch,
                 refreshTodayPunches,
                 doPunch,
+                todayPunchesError,
+                punchError,
             }}
         >
             {children}
