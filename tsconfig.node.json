@@ -12,5 +12,5 @@
       ]
     },
   },
-  "include": ["vite.config.ts", "package.json", "electron", "common"]
+  "include": ["vite.config.ts", "package.json", "electron"]
 }
