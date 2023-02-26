@@ -22,18 +22,18 @@ const SignIn: React.FC = () => {
             <label className="mb-1">Username</label>
             <input
                 ref={usernameRef}
-                className="border rounded-md bg-transparent px-3 py-1"
+                className="border rounded-md bg-transparent px-3 py-1 disabled:opacity-50"
                 disabled={isValidatingCredentials}
             />
             <label className="mt-3 mb-1">Password</label>
             <input
                 ref={passwordRef}
-                className="border rounded-md bg-transparent px-3 py-1"
+                className="border rounded-md bg-transparent px-3 py-1 disabled:opacity-50"
                 type={"password"}
                 disabled={isValidatingCredentials}
             />
             <button
-                className="border rounded-md py-2 bg-white text-indigo-900 mt-5 flex justify-center items-center"
+                className="border rounded-md py-2 bg-white text-neutral-900 mt-5 flex justify-center items-center disabled:opacity-75"
                 onClick={submitLogin}
                 disabled={isValidatingCredentials}
             >
