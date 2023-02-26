@@ -84,3 +84,6 @@ if (!app.requestSingleInstanceLock()) {
 
 app.dock.hide();
 app.whenReady().then(startApp);
+app.setLoginItemSettings({
+    openAtLogin: true,
+});
